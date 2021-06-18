@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:pedantic/pedantic.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:test/test.dart';
 
@@ -346,12 +345,13 @@ void main() {
       // ignore: close_sinks
       final subject = BehaviorSubject<void>();
 
-      unawaited(subject
+      // ignore: unawaited_futures
+      subject
           .addStream(Stream<void>.error(Exception()), cancelOnError: true)
-          .whenComplete(() => subject.add(1)));
+          .whenComplete(() => subject.add(null));
 
       await expectLater(subject.stream,
-          emitsInOrder(<StreamMatcher>[emitsError(isException), emits(1)]));
+          emitsInOrder(<StreamMatcher>[emitsError(isException), emits(null)]));
     });
 
     test('does not allow events to be added when addStream is active',
@@ -405,7 +405,7 @@ void main() {
     });
 
     test('returns onListen callback set in constructor', () async {
-      final testOnListen = () {};
+      void testOnListen() {}
       // ignore: close_sinks
       final subject = BehaviorSubject<void>(onListen: testOnListen);
 
@@ -413,7 +413,7 @@ void main() {
     });
 
     test('sets onListen callback', () async {
-      final testOnListen = () {};
+      void testOnListen() {}
       // ignore: close_sinks
       final subject = BehaviorSubject<void>();
 
@@ -425,7 +425,7 @@ void main() {
     });
 
     test('returns onCancel callback set in constructor', () async {
-      final onCancel = () => Future<void>.value(null);
+      void onCancel() => Future<void>.value(null);
       // ignore: close_sinks
       final subject = BehaviorSubject<void>(onCancel: onCancel);
 
@@ -433,7 +433,7 @@ void main() {
     });
 
     test('sets onCancel callback', () async {
-      final testOnCancel = () {};
+      void testOnCancel() {}
       // ignore: close_sinks
       final subject = BehaviorSubject<void>();
 

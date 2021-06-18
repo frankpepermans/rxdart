@@ -4,11 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:github_search/github_api.dart';
 import 'package:github_search/search_bloc.dart';
 import 'package:github_search/search_state.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart' show TypeMatcher;
 
-class MockGithubApi extends Mock implements GithubApi {}
+import 'search_bloc_test.mocks.dart';
 
+// To gen 'search_bloc_test.mocks.dart', run: flutter packages pub run build_runner build --delete-conflicting-outputs
+@GenerateMocks([GithubApi])
 void main() {
   group('SearchBloc', () {
     test('starts with an initial no term state', () {
